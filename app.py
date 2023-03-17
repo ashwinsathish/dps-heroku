@@ -17,22 +17,20 @@ model = pickle.load(open('xgb_pred_model.pkl','rb'))
 # scaler = StandardScaler()
 # X_train = scaler.fit_transform(X_train)
 
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, template_folder='./templates')
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+app = Flask(__name__)
 
 @app.route('/predict', methods=['POST'])
+def predict():
+    # Parse the JSON request body
+    data = request.get_json()
 
-def predict_accidents():
-
-    category_code = int(request.form.get('category_code'))
-    acc_type_code = int(request.form.get('acc_type_code'))
-    year = int(request.form.get('year'))
-    month = int(request.form.get('month'))
+    # Extract the values for each feature
+    category_code = data['category_code']
+    acc_type_code = data['accident_type_code']
+    year = data['year']
+    month = data['month']
 
     #prediction
     # input_data = np.array([[category_code, acc_type_code, year, month]])
