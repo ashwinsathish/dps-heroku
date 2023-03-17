@@ -33,12 +33,11 @@ def predict():
     month = data['month']
 
     #prediction
-    # input_data = np.array([[category_code, acc_type_code, year, month]])
-    input_data = np.array([[category_code, acc_type_code, year, month]].reshape(1,4))
-    # scaled_data = scaler.transform(input_data)
-    # result = model.predict(scaled_data)
+    input_data = np.array([[category_code, acc_type_code, year, month]])
     result = model.predict(input_data)
-    # return render_template('index.html',result=result)
+    response = {'predictions': result.tolist()}
+    return jsonify(response)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
